@@ -77,8 +77,9 @@ class WebdavPlugin(StellarPlayer.IStellarPlayerPlugin):
                 {'type': 'space', 'height': 10},
                 {'type': 'edit', 'name': '密码', 'height': 30, 'value': self.password},
                 {'type': 'space', 'height': 10},
-                {'type': 'button', 'name': '连接', '@click': 'on_connect_webdav', 'height': 30},
-                {'type': 'edit', 'name': '路径', 'height': 30, 'value': self.path}
+                {'type': 'edit', 'name': '路径', 'height': 30, 'value': self.path},
+                {'type': 'button', 'name': '连接', '@click': 'on_connect_webdav', 'height': 30}
+               
             ]
 
             self.doModal('login', 600, 400, '', controls)
