@@ -5,7 +5,7 @@ import traceback
 import urllib.parse
 
 sys.path.append(os.path.dirname(__file__))
-import easywebdav
+from easywebdav import *
 # easywebdav = __import__('stellar-webdav.easywebdav')
 import StellarPlayer
 
