@@ -77,7 +77,8 @@ class WebdavPlugin(StellarPlayer.IStellarPlayerPlugin):
                 {'type': 'space', 'height': 10},
                 {'type': 'edit', 'name': '密码', 'height': 30, 'value': self.password},
                 {'type': 'space', 'height': 10},
-                {'type': 'button', 'name': '连接', '@click': 'on_connect_webdav', 'height': 30}
+                {'type': 'button', 'name': '连接', '@click': 'on_connect_webdav', 'height': 30},
+                {'type': 'edit', 'name': '路径', 'height': 30, 'value': self.path}
             ]
 
             self.doModal('login', 600, 400, '', controls)
@@ -105,6 +106,7 @@ class WebdavPlugin(StellarPlayer.IStellarPlayerPlugin):
             config = json.load(f)
             self.host = config.get('host', '')
             self.port = config.get('port', '')
+            self.path=config.get('path', '')
             self.username = config.get('username', '')
             self.password = config.get('password', '')
             self.ssl = config.get('ssl', False)
@@ -117,7 +119,7 @@ class WebdavPlugin(StellarPlayer.IStellarPlayerPlugin):
         try:
             f = open('config.json', 'w')
             json.dump({'host': self.host, 'port': self.port, 'username': self.username, 'password': self.password,
-                       'ssl': self.ssl, 'verify': self.verify}, f)
+                       'ssl': self.ssl, 'path':self.path,'verify': self.verify}, f)
             f.close()
         except:
             traceback.print_exc()
@@ -125,6 +127,7 @@ class WebdavPlugin(StellarPlayer.IStellarPlayerPlugin):
     def on_connect_webdav(self, *arg):
         self.host = self.player.getControlValue('login', '主机名')
         self.port = self.player.getControlValue('login', '端口')
+        self.path = self.player.getControlValue('login', '路径')
         self.username = self.player.getControlValue('login', '用户名')
         self.password = self.player.getControlValue('login', '密码')
         self.ssl = self.player.getControlValue('login', 'SSL')
@@ -135,7 +138,7 @@ class WebdavPlugin(StellarPlayer.IStellarPlayerPlugin):
         try:
             self.webdav = easywebdav.connect(self.host, port=int(self.port), username=self.username,
                                              password=self.password, protocol=self.protocol,
-                                             verify_ssl=self.verify)
+                                             verify_ssl=self.verify,path=self.path)
             self.webdav.ls()
             self.player.closeModal('login', True)
             self.show()
